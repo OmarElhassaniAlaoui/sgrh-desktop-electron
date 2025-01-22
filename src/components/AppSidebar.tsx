@@ -1,4 +1,4 @@
-import { Home,  Search, Settings } from "lucide-react"
+import { Home, Settings, List , UserPlus } from "lucide-react";
 
 import {
   Sidebar,
@@ -9,29 +9,43 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { ModeToggle } from "./ModeToggle"
-import { Link } from "react-router-dom"
+} from "@/components/ui/sidebar";
+import { ModeToggle } from "./ModeToggle";
+import { Link } from "react-router-dom";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Accueil",
     url: "/",
     icon: Home,
   },
- 
   {
-    title: "About",
-    url: "about",
-    icon: Search,
+    title: "Demande de congés",
+    url: "demande-conges",
+    icon: Home,
+  },
+  {
+    title: "Fonctionnaires",
+    url: "ajouter-fonctionnaires",
+    icon: UserPlus,
+  },
+  {
+    title: "liste des demandes",
+    url: "liste-demands",
+    icon: List,
   },
   {
     title: "Settings",
     url: "settings",
     icon: Settings,
   },
-]
+  {
+    title: "Deconnexion",
+    url: "deconnexion",
+    icon: Home,
+  }
+];
 
 export function AppSidebar() {
   return (
@@ -57,5 +71,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

@@ -1,8 +1,9 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'; 
 import Settings from './pages/Settings';
-import About from './pages/About';
-import { Home } from 'lucide-react';
 import DashboardLayout from './layouts/DashboardLayout';
+import Accueil from './pages/accueil';
+import DemandeConges from './pages/demand-conges';
+import AjouterFontionnaire from './pages/ajouter-fontionnaire';
 
 
 const router = createBrowserRouter([
@@ -16,15 +17,19 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'home',
-                element: <Home />,
+                element: <Accueil />,
             },
             {
-                path: 'about',
-                element: <About />,
+                path: 'demande-conges',
+                element: <DemandeConges />,
             },
             {
                 path: 'settings',
                 element: <Settings />,
+            },
+            {
+                path: 'ajouter-fonctionnaires',
+                element: <AjouterFontionnaire />,
             },
         ],
     },
