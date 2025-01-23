@@ -10,7 +10,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ModeToggle } from "./ModeToggle";
 import { Link } from "react-router-dom";
 
 // Menu items.
@@ -71,7 +70,7 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              <ModeToggle />
+             
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
