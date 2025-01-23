@@ -33,6 +33,10 @@ const router = createBrowserRouter([
             },
         ],
     },
+    {
+        path:'/auth' , 
+        element: <Navigate to="/login" replace />,
+    }
 ]) ;  
 
 export default router ;
