@@ -1,5 +1,5 @@
 {
-    "appId": "com.n-ziermann.electron-react",
+    "appId": "com.sgrh-tznt.electron-react",
     "files": ["dist-electron", "dist-react"],
     "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
     "icon": "./desktopIcon.png",
