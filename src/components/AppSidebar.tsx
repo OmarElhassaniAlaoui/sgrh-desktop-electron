@@ -5,7 +5,7 @@ import {
   LayoutDashboard,
   Settings,
   UserCog,
-  FilePlus , 
+  FilePlus,
 } from "lucide-react";
 import {
   Sidebar,
@@ -22,37 +22,37 @@ const menuItems = [
   {
     title: "Tableau de bord",
     icon: LayoutDashboard,
-    url: "/",
-  },
-  {
-    title: "cree un congé",
-    icon: FilePlus,
-    url: "creer-conge",
+    url: "/dashboard/accueil", 
   },
   {
     title: "Demandes de congé",
     icon: ClipboardList,
-    url: "demandes-de-conge",
+    url: "/dashboard/demande-conges",
+  },
+  {
+    title: "cree un congé",
+    icon: FilePlus,
+    url: "/dashboard/creer-conge",
   },
   {
     title: "Solde de congé",
     icon: Calendar,
-    url: "solde-de-conge",
+    url: "/dashboard/solde-de-conge",
   },
   {
     title: "Rapports",
     icon: FileText,
-    url: "rapports",
+    url: "/dashboard/rapports",
   },
   {
     title: "Panneau d'administration",
     icon: UserCog,
-    url: "admin",
+    url: "/dashboard/admin",
   },
   {
     title: "Paramètres",
     icon: Settings,
-    url: "parametres",
+    url: "/dashboard/parametres",
   },
 ];
 
