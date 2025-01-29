@@ -1,18 +1,20 @@
 import { AppSidebar } from "@/components/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Header } from "@/components/Header";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { Outlet } from "react-router-dom";
+
 const RootLayout = () => {
   return (
     <SidebarProvider>
-       <Toaster />
+      <Toaster />
       <AppSidebar />
-      <section>
-        <SidebarTrigger />
-       <Outlet />
+      <section className="w-full h-full ">
+        <Header />
+        <Outlet />
       </section>
     </SidebarProvider>
-  )
-}
+  );
+};
 
-export default RootLayout
+export default RootLayout;

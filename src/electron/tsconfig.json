@@ -12,6 +12,11 @@
       "skipLibCheck": true,
       "esModuleInterop": true, // Enable ES module interop
       "moduleResolution": "NodeNext" , 
+      "types": ["../../types"]
+      
+
+
+
      
     }, 
     "include": ["**/*.ts"] , 
