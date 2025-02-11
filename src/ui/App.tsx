@@ -1,29 +1,24 @@
-import { Routes, Route, Navigate } from "react-router-dom"
-import {
-  Accueil,
-  AjouterFonctionnaire,
-  CreeConge,
-  Settings,
-} from "./_root/pages"
-import RootLayout from "./_root/RootLayout"
-import { LoginForm } from "./_auth/forms/login-form"
-import AuthLayout from "./_auth/AuthLayout"
-import { useLoginStore } from '../ui/_auth/store/login-store' // Adjust this import path as needed
-import ListeFonctionnaire from "./_root/pages/ListeFonctionnaire"
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Accueil, CreateLeave, Request, Settings } from "./_root/pages";
+import RootLayout from "./_root/RootLayout";
+import { LoginForm } from "./_auth/forms/login-form";
+import AuthLayout from "./_auth/AuthLayout";
+import { useLoginStore } from "../ui/_auth/store/login-store"; // Adjust this import path as needed
+import ListeFonctionnaire from "./_root/pages/ListeFonctionnaire";
 
 // Protected Route wrapper component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const isAuthenticated = useLoginStore(state => state.isAuthenticated)
-  
+  const isAuthenticated = useLoginStore((state) => state.isAuthenticated);
+
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
 const App = () => {
-  const isAuthenticated = useLoginStore(state => state.isAuthenticated)
+  const isAuthenticated = useLoginStore((state) => state.isAuthenticated);
 
   return (
     <main className="flex h-screen">
@@ -47,8 +42,8 @@ const App = () => {
           }
         >
           <Route index element={<Accueil />} />
-          <Route path="/cree-conge" element={<CreeConge />} />
-          <Route path="/ajouter-fonctionnaire" element={<AjouterFonctionnaire />} />
+          <Route path="/request" element={<Request />} />
+          <Route path="/request/create" element={<CreateLeave />} />
           <Route path="/liste-fonctionnaire" element={<ListeFonctionnaire />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
@@ -57,12 +52,16 @@ const App = () => {
         <Route
           path="*"
           element={
-            isAuthenticated ? <Navigate to="/" replace /> : <Navigate to="/login" replace />
+            isAuthenticated ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
       </Routes>
     </main>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -1,133 +1,256 @@
-import initSqlJs, { Database } from "sql.js";
-import { useEffect, useState } from "react";
 
-// Define the database schema
-const SCHEMA = `
-  CREATE TABLE IF NOT EXISTS fontionnaire (
-    cin TEXT PRIMARY KEY,
-    Matricule TEXT,
-    NSOM TEXT,
-    Nom_Fr TEXT,
-    Nom_ar TEXT,
-    Sexe TEXT,
-    TEL TEXT,
-    Tel2 TEXT,
-    c_grade TEXT,
-    C_Division TEXT,
-    Budget TEXT,
-    nat_conge TEXT,
-    anneePr INTEGER,
-    reliqanc INTEGER,
-    anneeCourant INTEGER,
-    reliqnv INTEGER,
-    Adressefr TEXT,
-    Adressear TEXT,
-    n_decision TEXT,
-    Date_decision TEXT,
-    remplacantfr TEXT,
-    remplacantar TEXT,
-    date_naissance TEXT,
-    lieu_naissance TEXT,
-    adresse TEXT,
-    numero_telephone TEXT,
-    niveau_scolaire TEXT,
-    diplome TEXT,
-    date_recrutement TEXT,
-    fonction TEXT,
-    code_situation TEXT,
-    statut TEXT,
-    reg_grade TEXT,
-    Retr_mutation TEXT,
-    Deja_benif INTEGER
-  );
+// src/db/db.ts
+import Database from 'better-sqlite3';
+import { app } from 'electron';
+import path from 'path';// src/types/database.ts
+export interface Fonctionnaire {
+  cin: string;
+  Matricule: string;
+  NSOM: string;
+  Nom_Fr: string;
+  Nom_ar: string;
+  Sexe: string;
+  TEL: string;
+  Tel2: string;
+  c_grade: string;
+  C_Division: string;
+  Budget: string;
+  nat_conge: string;
+  anneePr: number;
+  reliqanc: number;
+  anneeCourant: number;
+  reliqnv: number;
+  Adressefr: string;
+  Adressear: string;
+  n_decision: string;
+  Date_decision: string;
+  remplacantfr: string;
+  remplacantar: string;
+  date_naissance: string;
+  lieu_naissance: string;
+  adresse: string;
+  numero_telephone: string;
+  niveau_scolaire: string;
+  diplome: string;
+  date_recrutement: string;
+  fonction: string;
+  code_situation: string;
+  statut: string;
+  reg_grade: string;
+  Retr_mutation: string;
+  Deja_benif: number;
+}
 
-  CREATE TABLE IF NOT EXISTS traitement (
-    cin TEXT PRIMARY KEY,
-    Matricule TEXT,
-    NSOM TEXT,
-    Nom_Fr TEXT,
-    Nom_ar TEXT,
-    Sexe TEXT,
-    TEL TEXT,
-    Tel2 TEXT,
-    c_grade TEXT,
-    grade_fr TEXT,
-    grade_ar TEXT,
-    C_Division TEXT,
-    Division TEXT,
-    Budget TEXT,
-    typecongefr TEXT,
-    typecongear TEXT,
-    anneepr INTEGER,
-    reliqanc INTEGER,
-    anneeCourant INTEGER,
-    reliqnv INTEGER,
-    Adressefr TEXT,
-    Adressear TEXT,
-    n_decision TEXT,
-    Date_decision TEXT,
-    remplacantfr TEXT,
-    remplacantar TEXT,
-    code_nat_conge TEXT,
-    datedepart TEXT,
-    dateretour TEXT,
-    jouranneepr INTEGER,
-    restejourpr INTEGER,
-    jouranneecourant INTEGER,
-    restejourcourant INTEGER,
-    totaljourconge INTEGER,
-    restetotaljour INTEGER,
-    datesaisie TEXT,
-    nondeduire TEXT,
-    anneecongeanc INTEGER,
-    anneecongecour INTEGER,
-    jourexcep INTEGER,
-    annejourexcep INTEGER,
-    raisonar TEXT,
-    raisonfr TEXT
-  );
+export interface Traitement {
+  cin: string;
+  Matricule: string;
+  NSOM: string;
+  Nom_Fr: string;
+  Nom_ar: string;
+  Sexe: string;
+  TEL: string;
+  Tel2: string;
+  c_grade: string;
+  grade_fr: string;
+  grade_ar: string;
+  C_Division: string;
+  Division: string;
+  Budget: string;
+  typecongefr: string;
+  typecongear: string;
+  anneepr: number;
+  reliqanc: number;
+  anneeCourant: number;
+  reliqnv: number;
+  Adressefr: string;
+  Adressear: string;
+  n_decision: string;
+  Date_decision: string;
+  remplacantfr: string;
+  remplacantar: string;
+  code_nat_conge: string;
+  datedepart: string;
+  dateretour: string;
+  jouranneepr: number;
+  restejourpr: number;
+  jouranneecourant: number;
+  restejourcourant: number;
+  totaljourconge: number;
+  restetotaljour: number;
+  datesaisie: string;
+  nondeduire: string;
+  anneecongeanc: number;
+  anneecongecour: number;
+  jourexcep: number;
+  annejourexcep: number;
+  raisonar: string;
+  raisonfr: string;
+}
 
-  CREATE TABLE IF NOT EXISTS jours (
-    Nbr INTEGER PRIMARY KEY,
-    Joursar TEXT,
-    Joursfr TEXT
-  );
+export interface Grade {
+  Code_grade: number;
+  Gradefr: string;
+  Gradear: string;
+}
 
-    CREATE TABLE IF NOT EXISTS grade (
-        Code_grade INTEGER PRIMARY KEY,
-        Gradefr TEXT , 
-        Gradear TEXT
-    );
+export interface Division {
+  Code_Division: number;
+  Div_fr: string;
+  Div_ar: string;
+}
 
-    CREATE TABLE IF NOT EXISTS division (
-        Code_Division INTEGER PRIMARY KEY,
-        Div_fr TEXT , 
-        Div_ar TEXT
-    );
+export interface TypeConge {
+  Code_conge: number;
+  Typecongefr: string;
+  Typecongear: string;
+}
 
-    CREATE TABLE IF NOT EXISTS typeconge (
-        Code_conge INTEGER PRIMARY KEY,
-        Typecongefr TEXT , 
-        Typecongear TEXT
-    );
-`;
+export interface Jours {
+  Nbr: number;
+  Joursar: string;
+  Joursfr: string;
+}
 
-// Initialize the database
-export const useDatabase = () => {
-  const [db, setDb] = useState<Database | null>(null);
+// src/db/queries.ts
+export const queries = {
+  // Fonctionnaire queries
+  getFonctionnaire: `
+    SELECT * FROM fontionnaire WHERE cin = ?
+  `,
+  getAllFonctionnaires: `
+    SELECT * FROM fontionnaire
+  `,
+  searchFonctionnaires: `
+    SELECT * FROM fontionnaire 
+    WHERE Nom_Fr LIKE ? OR Nom_ar LIKE ? OR Matricule LIKE ?
+  `,
+  insertFonctionnaire: `
+    INSERT INTO fontionnaire (
+      cin, Matricule, NSOM, Nom_Fr, Nom_ar, Sexe, TEL, Tel2,
+      c_grade, C_Division, Budget, nat_conge, anneePr, reliqanc,
+      anneeCourant, reliqnv, Adressefr, Adressear, n_decision,
+      Date_decision, remplacantfr, remplacantar, date_naissance,
+      lieu_naissance, adresse, numero_telephone, niveau_scolaire,
+      diplome, date_recrutement, fonction, code_situation, statut,
+      reg_grade, Retr_mutation, Deja_benif
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `,
+  updateFonctionnaire: `
+    UPDATE fontionnaire SET
+      Matricule = ?, NSOM = ?, Nom_Fr = ?, Nom_ar = ?, Sexe = ?,
+      TEL = ?, Tel2 = ?, c_grade = ?, C_Division = ?, Budget = ?,
+      nat_conge = ?, anneePr = ?, reliqanc = ?, anneeCourant = ?,
+      reliqnv = ?, Adressefr = ?, Adressear = ?, n_decision = ?,
+      Date_decision = ?, remplacantfr = ?, remplacantar = ?,
+      date_naissance = ?, lieu_naissance = ?, adresse = ?,
+      numero_telephone = ?, niveau_scolaire = ?, diplome = ?,
+      date_recrutement = ?, fonction = ?, code_situation = ?,
+      statut = ?, reg_grade = ?, Retr_mutation = ?, Deja_benif = ?
+    WHERE cin = ?
+  `,
+  deleteFonctionnaire: `
+    DELETE FROM fontionnaire WHERE cin = ?
+  `,
 
-  useEffect(() => {
-    const initializeDB = async () => {
-      const SQL = await initSqlJs({
-        locateFile: (file) => `https://sql.js.org/dist/${file}`,
-      });
-      const database = new SQL.Database();
-      database.exec(SCHEMA);
-      setDb(database);
-    };
+  // Traitement queries
+  getTraitement: `
+    SELECT * FROM traitement WHERE cin = ?
+  `,
+  insertTraitement: `
+    INSERT INTO traitement (
+      cin, Matricule, NSOM, Nom_Fr, Nom_ar, Sexe, TEL, Tel2,
+      c_grade, grade_fr, grade_ar, C_Division, Division, Budget,
+      typecongefr, typecongear, anneepr, reliqanc, anneeCourant,
+      reliqnv, Adressefr, Adressear, n_decision, Date_decision,
+      remplacantfr, remplacantar, code_nat_conge, datedepart,
+      dateretour, jouranneepr, restejourpr, jouranneecourant,
+      restejourcourant, totaljourconge, restetotaljour, datesaisie,
+      nondeduire, anneecongeanc, anneecongecour, jourexcep,
+      annejourexcep, raisonar, raisonfr
+    ) VALUES (${Array(42).fill('?').join(', ')})
+  `,
 
-    initializeDB();
-  }, []);
-
-  return db;
+  // Reference data queries
+  getAllGrades: `SELECT * FROM grade`,
+  getAllDivisions: `SELECT * FROM division`,
+  getAllTypeConges: `SELECT * FROM typeconge`,
+  getAllJours: `SELECT * FROM jours`
 };
+
+
+
+export class DatabaseService {
+  private db: Database.Database;
+
+  constructor() {
+    const dbPath = path.join(app.getPath('userData'), 'sgrh.db');
+    this.db = new Database(dbPath);
+    this.initDatabase();
+  }
+
+  private initDatabase() {
+    // Create tables if they don't exist
+    const tables = [
+      `CREATE TABLE IF NOT EXISTS fontionnaire (...)`, // Your existing schema
+      `CREATE TABLE IF NOT EXISTS traitement (...)`,   // Your existing schema
+      `CREATE TABLE IF NOT EXISTS jours (...)`,        // Your existing schema
+      `CREATE TABLE IF NOT EXISTS grade (...)`,        // Your existing schema
+      `CREATE TABLE IF NOT EXISTS division (...)`,     // Your existing schema
+      `CREATE TABLE IF NOT EXISTS typeconge (...)`     // Your existing schema
+    ];
+
+    tables.forEach(table => {
+      this.db.exec(table);
+    });
+  }
+
+  // Fonctionnaire operations
+  getFonctionnaire(cin: string): Fonctionnaire | undefined {
+    return this.db.prepare(queries.getFonctionnaire).get(cin);
+  }
+
+  getAllFonctionnaires(): Fonctionnaire[] {
+    return this.db.prepare(queries.getAllFonctionnaires).all();
+  }
+
+  searchFonctionnaires(searchTerm: string): Fonctionnaire[] {
+    const term = `%${searchTerm}%`;
+    return this.db.prepare(queries.searchFonctionnaires)
+      .all(term, term, term);
+  }
+
+  insertFonctionnaire(fonctionnaire: Fonctionnaire) {
+    const stmt = this.db.prepare(queries.insertFonctionnaire);
+    return stmt.run(Object.values(fonctionnaire));
+  }
+
+  updateFonctionnaire(fonctionnaire: Fonctionnaire) {
+    const stmt = this.db.prepare(queries.updateFonctionnaire);
+    return stmt.run([...Object.values(fonctionnaire), fonctionnaire.cin]);
+  }
+
+  // Traitement operations
+  insertTraitement(traitement: Traitement) {
+    const stmt = this.db.prepare(queries.insertTraitement);
+    return stmt.run(Object.values(traitement));
+  }
+
+  // Reference data operations
+  getAllGrades(): Grade[] {
+    return this.db.prepare(queries.getAllGrades).all();
+  }
+
+  getAllDivisions(): Division[] {
+    return this.db.prepare(queries.getAllDivisions).all();
+  }
+
+  getAllTypeConges(): TypeConge[] {
+    return this.db.prepare(queries.getAllTypeConges).all();
+  }
+
+  getAllJours(): Jours[] {
+    return this.db.prepare(queries.getAllJours).all();
+  }
+}
+
+export const db = new DatabaseService();

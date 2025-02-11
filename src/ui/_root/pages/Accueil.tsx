@@ -3,7 +3,7 @@ import { Overview } from "@/components/overview";
 import { RecentLeaves } from "@/components/recent-leaves";
 import StatsCard from "@/components/StatsCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, FileText, XCircle } from "lucide-react";
+import { CalendarDays, CheckCircle, FileText, XCircle } from "lucide-react";
 
 const Accueil = () => {
   return (
@@ -15,21 +15,25 @@ const Accueil = () => {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <StatsCard
           title="Total Requests"
           value="12"
-          icon={<FileText className="h-4 w-4" />}
+          icon={<FileText className="h-4 w-4 text-muted-foreground" />}
         />
         <StatsCard
           title="Approved"
           value="8"
-          icon={<CheckCircle className="h-4 w-4" />}
+          icon={<CheckCircle className="h-4 w-4 text-emerald-500" />}
         />
         <StatsCard
           title="Rejected"
           value="2"
-          icon={<XCircle className="h-4 w-4" />}
+          icon={<XCircle className="h-4 w-4 text-red-500" />}
+        /> <StatsCard
+          title="Pending"
+          value="2"
+          icon={<CalendarDays className="h-4 w-4 text-yellow-500" />}
         />
       </div>
       <div className="space-y-4">
