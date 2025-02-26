@@ -4,6 +4,7 @@ import "./index.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom"; 
+import '../types/electron'
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

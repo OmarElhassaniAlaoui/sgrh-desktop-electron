@@ -6,7 +6,15 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import type { Employee } from "@/types/employee"
+// import type { Employee } from "@/types/employee" 
+
+type Employee = {
+  id: string
+  name: string
+  department: string
+  restDays: number
+  balance: number
+}
 
 // Mock function to simulate API call
 const fetchEmployees = async (query: string): Promise<Employee[]> => {
@@ -84,12 +92,7 @@ export function EmployeeSearch({ onSelectEmployee }: EmployeeSearchProps) {
           <p>
             <strong>Department:</strong> {selectedEmployee.department}
           </p>
-          <p>
-            <strong>Rest Days:</strong> {selectedEmployee.restDays}
-          </p>
-          <p>
-            <strong>Leave Balance:</strong> {selectedEmployee.balance} days
-          </p>
+         
         </div>
       )}
     </div>

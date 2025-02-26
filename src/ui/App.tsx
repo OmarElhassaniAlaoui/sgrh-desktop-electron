@@ -5,6 +5,7 @@ import { LoginForm } from "./_auth/forms/login-form";
 import AuthLayout from "./_auth/AuthLayout";
 import { useLoginStore } from "../ui/_auth/store/login-store"; // Adjust this import path as needed
 import ListeFonctionnaire from "./_root/pages/ListeFonctionnaire";
+import TemplatePage from "./_root/pages/template";
 
 // Protected Route wrapper component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/request/create" element={<CreateLeave />} />
           <Route path="/liste-fonctionnaire" element={<ListeFonctionnaire />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/template" element={<TemplatePage />} />
         </Route>
 
         {/* Catch all route - redirect to login if not authenticated, home if authenticated */}

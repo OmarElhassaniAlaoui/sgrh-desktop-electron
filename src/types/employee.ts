@@ -1,9 +1,8 @@
-
 export interface Employee {
-    id: string
-    name: string
-    department: string
-    restDays: number
-    balance: number
-  }
-  
+  id: string;
+  name: string;
+  email: string;
+  department: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

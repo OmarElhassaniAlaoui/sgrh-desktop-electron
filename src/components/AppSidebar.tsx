@@ -30,28 +30,33 @@ export function AppSidebar() {
     navigate("/login");
   };
 
-  const menuItems = [
-    {
-      title: "Tableau de bord",
-      icon: LayoutDashboard,
-      url: "/",
-    },
-    {
-      title: "demande de congé",
-      icon: FilePlus,
-      url: "request",
-    },
-    {
-      title: "Liste des fonctionnaires",
-      icon: List,
-      url: "liste-fonctionnaire",
-    },
-    {
-      title: "Paramètres",
-      icon: Settings,
-      url: "settings",
-    },
-  ];
+    const menuItems = [
+      {
+        title: "Tableau de bord",
+        icon: LayoutDashboard,
+        url: "/",
+      },
+      {
+        title: "demande de congé",
+        icon: FilePlus,
+        url: "request",
+      },
+      {
+        title: "Liste des fonctionnaires",
+        icon: List,
+        url: "liste-fonctionnaire",
+      },
+      {
+        title: "Paramètres",
+        icon: Settings,
+        url: "settings",
+      },
+      {
+        title: "template",
+        icon: List,
+        url: "template",
+      }
+    ];
 
   return (
     <Sidebar variant="floating" collapsible="icon">
@@ -65,7 +70,6 @@ export function AppSidebar() {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">SGRH-TIZNIT</span>
-                  
                 </div>
               </a>
             </SidebarMenuButton>

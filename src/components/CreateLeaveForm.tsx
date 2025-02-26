@@ -69,12 +69,7 @@ export function CreateLeaveForm({ employee }: CreateLeaveFormProps) {
         <p>
           <strong>Department:</strong> {employee?.department}
         </p>
-        <p>
-          <strong>Rest Days:</strong> {employee?.restDays}
-        </p>
-        <p>
-          <strong>Leave Balance:</strong> {employee?.balance} days
-        </p>
+       
       </div>
 
       <Form {...form}>
